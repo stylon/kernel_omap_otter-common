@@ -2643,7 +2643,7 @@ static struct clk timer10_fck = {
 	.enable_bit	= OMAP4430_MODULEMODE_SWCTRL,
 	.clkdm_name	= "l4_per_clkdm",
 /* FIXME-HASH: Need a better check here */
-#if 1
+#if 0
 	.flags          = ENABLE_ON_INIT,
 #endif
 };

@@ -21,7 +21,6 @@
 #include <asm/delay.h>
 #include <plat/board.h>
 #include <plat/dmtimer.h>
-#include <linux/clk.h>
 
 struct omap_pwm_led {
 	struct led_classdev cdev;
@@ -351,9 +350,9 @@ static int omap_pwm_led_suspend(struct platform_device *pdev, pm_message_t state
 	struct omap_pwm_led *led = pdev_to_omap_pwm_led(pdev);
 
 	flush_work(&led->work);
+	omap_pwm_led_power_off(led);
 	pr_debug("%s: work flushed\n", __func__);
 	led_classdev_suspend(&led->cdev);
-	clk_disable(led->intensity_timer->fclk);
 	pr_debug("%s: suspend complete\n", __func__);
 	return 0;
 }
@@ -361,8 +360,9 @@ static int omap_pwm_led_suspend(struct platform_device *pdev, pm_message_t state
 static int omap_pwm_led_resume(struct platform_device *pdev)
 {
 	struct omap_pwm_led *led = pdev_to_omap_pwm_led(pdev);
-	clk_enable(led->intensity_timer->fclk);
 	led_classdev_resume(&led->cdev);
+	omap_pwm_led_power_on(led);
+	schedule_work(&led->work);
 	return 0;
 }
 #else

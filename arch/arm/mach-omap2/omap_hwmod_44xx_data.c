@@ -5460,7 +5460,7 @@ static struct omap_hwmod omap44xx_timer10_hwmod = {
 	.class		= &omap44xx_timer_1ms_hwmod_class,
 //#if defined(CONFIG_OTTER) || defined(CONFIG_OTTER2)
 /* FIXME-HASH: Need a better check */
-#if 1
+#if 0
 	.flags		= HWMOD_INIT_NO_RESET,
 #endif
 	.mpu_irqs	= omap44xx_timer10_irqs,
